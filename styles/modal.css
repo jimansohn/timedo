@@ -1,0 +1,29 @@
+.modal.layer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(44, 44, 42, 0.8);
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  z-index: 2000;
+  color: rgba(44, 44, 42, 1);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.card {
+  background-color: rgba(245, 245, 236, 0.9);
+  padding: 40px;
+  justify-content: flex-start;
+}
+.modal.layer,
+.nomore,
+.invalid {
+  display: none;
+}
+
+.modal.title {
+  margin: 20px;
+  margin-top: 70px;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/timer.css" />
+    <link rel="stylesheet" href="/styles/prompt.css" />
+    <link rel="stylesheet" href="/styles/modal.css" />
+
+    <script
+      src="https://kit.fontawesome.com/3a52c9b328.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="progress-ring.js"></script>
+    <script src="main.js"></script>
+    <script src="html-duration-picker.min.js"></script>
+    <title>TimeDo</title>
+  </head>
+  <body>
+    <div class="modal layer">
+      <div class="modal card">
+        <h1 class="modal nomore title">Too Many Tasks</h1>
+        <p class="modal nomore message">
+          Are you sure you can handle all these tasks? Let's focus on what we
+          have already. Or, remove existing tasks to add more.
+        </p>
+        <h1 class="modal invalid title">Invalid Inputs</h1>
+        <p class="modal invalid message">
+          Give TimeDo some real task to track. You left out either the task name
+          or the duration.
+        </p>
+        <button class="close control controller" onclick="closeModal()">
+          <i class="fas fa-times-circle modal close"></i>
+        </button>
+      </div>
+    </div>
+    <div id="bar">TimeDo</div>
+    <div id="main">
+      <div class="container">
+        <div class="prompt card" onload="setRandomColor(this)">
+          <svg class="prompt" height="100%" width="100%" viewBox="0 0 200 200">
+            <circle
+              class="prompt"
+              fill="transparent"
+              r="85"
+              cx="100"
+              cy="100"
+              stroke-width="10"
+              stroke="red"
+            />
+          </svg>
+          <div class="prompt element spacer"></div>
+          <input class="prompt element input label" type="text" />
+          <input class="prompt element input time html-duration-picker" />
+          <button class="prompt element button" onclick="addTimer()">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
