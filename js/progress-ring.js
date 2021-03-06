@@ -45,8 +45,8 @@ class ProgressRing extends HTMLElement {
     .ring-container {
       position: relative;
       display: block;
-      width: var(--size);
-      height: var(--size);
+      width: 100%;
+      height: 100%;
     }
     .time-display{
         font-size: 2rem;
@@ -127,7 +127,8 @@ class ProgressRing extends HTMLElement {
       this._data.remainInSec = remainder >= 0 ? remainder : 0;
       this._data.remain = seconds2iso(this._data.remainInSec);
       if (remainder != 0) clearInterval(this.interval);
-    } else if (status === 'stopped') {
+    } else if (status === 'refreshed') {
+      console.log('refreshed');
       clearInterval(this.interval);
       this._data = new TimerData(this._data.time);
       this.updateClock();

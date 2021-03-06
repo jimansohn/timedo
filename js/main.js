@@ -1,3 +1,7 @@
+/*
+PROMPT RELATED SCRIPTS
+*/
+
 const originalColors = [
   '#f44336',
   '#e91e63',
@@ -63,13 +67,6 @@ function updatePlaceholder() {
   document.querySelector('.prompt.label').placeholder = holder;
 }
 
-function getRandomColor() {
-  const index = Math.floor(Math.random() * Math.floor(colors.length));
-  const color = colors.splice(index, 1)[0];
-
-  return color;
-}
-
 function getAssociatedRing(button) {
   return button.parentElement.parentElement.children[0];
 }
@@ -79,6 +76,7 @@ function changeStatus(button, status) {
 }
 
 function disableButton(button, tfarray) {
+  // console.log(`disabling: ${tfarray}`);
   for (ii = 0; ii < tfarray.length; ii++) {
     button.parentElement.children[ii].disabled = tfarray[ii];
   }
@@ -95,20 +93,20 @@ function pauseTimer(button) {
   changeStatus(button, 'paused');
   disableButton(button, [false, true, false]);
 }
-function stopTimer(button) {
-  // console.log('stop timer');
-  changeStatus(button, 'stopped');
+function refreshTimer(button) {
+  // console.log('refresh timer');
+  changeStatus(button, 'refreshed');
   disableButton(button, [false, true, true]);
 }
 function trashTimer(button) {
   // console.log('trash timer');
-  stopTimer(button);
+  refreshTimer(button);
   getAssociatedRing(button).parentElement.parentElement.remove();
   button.parentElement.remove();
 }
 
 function addTimer() {
-  if (document.querySelector('#main').children.length <= 7) {
+  if (document.querySelector('.main').children.length <= 7) {
     const label = document.querySelector('.prompt.label').value;
     const time = document.querySelector('.prompt.time').value;
     if (label != null && time != '00:00:00') {
@@ -122,14 +120,14 @@ function addTimer() {
 
       const ring = document.createElement('progress-ring');
       ring.className = 'ring';
-      document.querySelector('#main').appendChild(ring);
+      document.querySelector('.main').appendChild(ring);
       ring.setAttribute('label', label);
       ring.setAttribute(
         'style',
         `--color: ${color}; --background-color: ${color}32 `
       );
       ring.setAttribute('time', time);
-      document.querySelector('#main').removeChild(ring);
+      document.querySelector('.main').removeChild(ring);
 
       const controller = document.createElement('div');
       controller.className = 'controller';
@@ -149,11 +147,11 @@ function addTimer() {
         pauseTimer(pause);
       };
 
-      const stop = document.createElement('button');
-      stop.className = 'stop control';
-      stop.innerHTML = '<i class="fas fa-stop-circle"></i>';
-      stop.onclick = () => {
-        stopTimer(stop);
+      const refresh = document.createElement('button');
+      refresh.className = 'refresh control';
+      refresh.innerHTML = '<i class="fas fa-undo-alt"></i>';
+      refresh.onclick = () => {
+        refreshTimer(refresh);
       };
 
       const trash = document.createElement('button');
@@ -165,7 +163,7 @@ function addTimer() {
 
       controller.appendChild(play);
       controller.appendChild(pause);
-      controller.appendChild(stop);
+      controller.appendChild(refresh);
       controller.appendChild(trash);
       card.appendChild(ring);
       card.appendChild(controller);

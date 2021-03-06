@@ -4,23 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <script
       src="https://kit.fontawesome.com/3a52c9b328.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/progress-ring.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/html-duration-picker.min.js"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@1,700&family=Mukta:wght@300&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="styles/main.css" />
-    <link rel="stylesheet" href="styles/timer.css" />
-    <link rel="stylesheet" href="styles/prompt.css" />
-    <link rel="stylesheet" href="styles/modal.css" />
-
     <title>TimeDo</title>
   </head>
   <body>
@@ -41,29 +30,37 @@
         </button>
       </div>
     </div>
-    <div id="bar">TimeDo</div>
-    <div id="main">
+    <div class="top">
+      <span class="title">TimeDo:</span>
+      <span class="subtitle">A daily to-do list with timer</span>
+    </div>
+    <div class="main">
       <div class="container">
         <div class="prompt card" onload="setRandomColor(this)">
-          <svg class="prompt" height="100%" width="100%" viewBox="0 0 200 200">
+          <svg class="prompt" viewBox="0 0 200 200">
             <circle
               class="prompt"
               fill="transparent"
-              r="85"
+              r="95"
               cx="100"
               cy="100"
               stroke-width="10"
               stroke="red"
             />
           </svg>
-          <div class="prompt element spacer"></div>
-          <input class="prompt element input label" type="text" />
-          <input class="prompt element input time html-duration-picker" />
-          <button class="prompt element button" onclick="addTimer()">
-            Add
-          </button>
+          <div class="prompt form">
+            <div class="prompt element spacer"></div>
+            <input class="prompt element input label" type="text" />
+            <input class="prompt element input time html-duration-picker" />
+            <button class="prompt element button" onclick="addTimer()">
+              Add
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    <script src="js/progress-ring.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/html-duration-picker.min.js"></script>
   </body>
 </html>
