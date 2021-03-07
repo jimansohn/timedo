@@ -173,31 +173,39 @@ class ProgressRing extends HTMLElement {
 
 class TimerData {
   time;
-  timeInSec;
   prevProg;
   sessionStart;
-  sessionProg;
-  progress;
-  remainInSec;
-  remain;
-  constructor(time) {
-    this.time = time;
-    this.timeInSec = iso2seconds(this.time);
-    this.prevProg = 0; // set when pause
-    this.sessionStart = 0; // set when start
-    this.sessionProg = 0;
-    this.progress = 0;
-    this.remainInSec = this.timeInSec - this.progress;
-    this.remain = seconds2iso(this.remainInSec);
+  set time(t) {
+    this.time = t;
+  }
+  get time() {
+    return this.time;
+  }
+  set prevProg(prePro) {
+    this.prevProg = prepro;
+  }
+  get prevProg() {
+    return this.prevProg;
+  }
+  set sessionStart(sessionStart) {
+    this.sessionStart = sessionStart;
+  }
+  get sessionStart() {
+    return this.sessionStart;
   }
 
-  update() {
-    const now = Date.now();
-    this.sessionProg = Math.floor((now - this.sessionStart) / 1000);
-    this.progress = this.prevProg + this.sessionProg;
-    const remainder = this.timeInSec - this.progress;
-    this.remainInSec = remainder >= 0 ? remainder : 0;
-    this.remain = seconds2iso(this.remainInSec);
+  get remain() {
+    return (
+      iso2seconds(this.time) -
+      this.prevProg -
+      Math.floor((now - this.sessionStart) / 1000)
+    );
+  }
+
+  constructor(time) {
+    this.time = time;
+    this.sessionStart = 0; // set when start
+    this.prevProg = 0; // set when paused
   }
 }
 customElements.define('progress-ring', ProgressRing);
