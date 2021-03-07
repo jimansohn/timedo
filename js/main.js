@@ -285,7 +285,7 @@ function refreshTimer(event) {
 
 function trashTimer(event) {
   refreshTimer(event);
-  getParentElement(event.target, 'container').remove();
+  getParentElement(event.target, 'timer').remove();
 }
 
 function getParentElement(elm, targetClass) {
