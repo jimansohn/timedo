@@ -1,3 +1,5 @@
+const timerMap = new Map();
+
 /*
 PROMPT RELATED SCRIPTS
 */
@@ -122,6 +124,8 @@ function addTimer() {
 }
 
 function constructTimer(label, time, color) {
+  timerMap.set(color, new TimerData(label, time, color));
+
   const timer = document.createElement('div');
   timer.className = 'timer';
   timer.id = color;
@@ -241,7 +245,6 @@ function constructController(color) {
 /**
  * Processing Functions
  */
-const timerMap = new Map();
 
 function startTimer(event) {
   const controller = getParentElement(event.target, 'controller');
@@ -249,38 +252,49 @@ function startTimer(event) {
   controller.children[1].style.display = 'block';
 
   const color = controller.getAttribute('data-color');
-  const timerPair = timerMap.has(color)
-    ? timerMap.get(color)
-    : timerMap
-        .set(color, [
-          new TimerData(
-            getParentElement(controller, 'timer').getAttribute('data-time')
-          ),
-        ])
-        .get(color);
-  timerPair[0].sessionStart = Date.now();
-  const interval = setInterval(() => {
-    // updateTimer();
-
-    console.log('blahblah');
+  const timerData = timerMap.get(color);
+  const timer = document.getElementById(timerData.color);
+  const ring = timer.querySelector('svg').children[1];
+  const clock = timer.querySelector('.clock');
+  timerData.sessionStart = Date.now();
+  updateTimer(timerData, ring, clock);
+  timerData.interval = setInterval(() => {
+    updateTimer(timerData, ring, clock);
+    if (timerData.remain <= 0) {
+      clearInterval(timerData.interval);
+      controller.children[0].disabled = true;
+      controller.children[1].disabled = true;
+    }
   }, 1000);
-  timerPair.splice(1, 1, interval);
-  console.log(timerPair);
 }
 
 function pauseTimer(event) {
   const controller = getParentElement(event.target, 'controller');
+  const timerData = timerMap.get(controller.getAttribute('data-color'));
+  const timer = document.getElementById(timerData.color);
+  const ring = timer.querySelector('svg').children[1];
+  const clock = timer.querySelector('.clock');
   controller.children[0].style.display = 'block';
   controller.children[1].style.display = 'none';
-
-  const timerPair = timerMap.get(controller.getAttribute('data-color'));
-  clearInterval(timerPair[1]);
+  if (timerData.remain > 1) {
+    timerData.prevProg = timerData.progress + 1;
+    clearInterval(timerData.interval);
+  }
 }
 
 function refreshTimer(event) {
+  pauseTimer(event);
   const controller = getParentElement(event.target, 'controller');
-  controller.children[0].style.display = 'block';
-  controller.children[1].style.display = 'none';
+  const color = controller.getAttribute('data-color');
+  const timerData = timerMap.get(color);
+  const timer = document.getElementById(timerData.color);
+  const ring = timer.querySelector('svg').children[1];
+  const clock = timer.querySelector('.clock');
+  controller.children[0].disabled = false;
+  controller.children[1].disabled = false;
+  timerData.reset();
+  ring.setAttribute('stroke-dashoffset', ringCircum);
+  clock.innerHTML = seconds2iso(timerData.remain);
 }
 
 function trashTimer(event) {
@@ -296,29 +310,43 @@ function getParentElement(elm, targetClass) {
   return element;
 }
 
-function updateTimer(timerData) {
-  const timerCard = document.body.querySelector(`#${timerData.color}`);
-  updateRing(timerData);
-  updateDisplay(timerData);
+function updateTimer(timerData, ring, clock) {
+  clock.innerHTML = seconds2iso(timerData.remain);
+  ring.setAttribute(
+    'stroke-dashoffset',
+    timerData.remain <= 0
+      ? 0
+      : ((timerData.remain - 1) / timerData.time) * ringCircum
+  );
 }
-
-function updateRing(timerData) {}
 
 /**
  * End of Processing Functions
  */
 
 class TimerData {
+  _label;
+  _color;
   _time;
   _prevProg;
   _sessionStart;
+  _interval;
+  get interval() {
+    return this._interval;
+  }
+  set interval(i) {
+    this._interval = i;
+  }
+  get label() {
+    return this._label;
+  }
   get color() {
     return this._color;
   }
   get time() {
     return this._time;
   }
-  set prevProg(prePro) {
+  set prevProg(prepro) {
     this._prevProg = prepro;
   }
   get prevProg() {
@@ -331,15 +359,29 @@ class TimerData {
     return this._sessionStart;
   }
 
-  get remain() {
-    return (
-      this._time - // From Total Time
-      this._prevProg - // Subtract progress from previous session before pause
-      Math.floor((now - this._sessionStart) / 1000) // Subtract current progress
-    );
+  get progress() {
+    if (this.sessionStart != 0) {
+      return (
+        this._prevProg + Math.floor((Date.now() - this._sessionStart) / 1000)
+      );
+    } else {
+      return 0;
+    }
   }
 
-  constructor(time) {
+  get remain() {
+    const remain = this._time - this.progress;
+    return remain < 0 ? 0 : remain;
+  }
+
+  reset() {
+    this._sessionStart = 0; // set when start
+    this._prevProg = 0;
+  }
+
+  constructor(label, time, color) {
+    this._label = label;
+    this._color = color;
     this._time = time;
     this._sessionStart = 0; // set when start
     this._prevProg = 0; // set when paused

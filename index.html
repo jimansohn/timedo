@@ -14,20 +14,22 @@
   </head>
   <body>
     <div class="modal layer">
-      <div class="modal card">
-        <h1 class="modal nomore title">Too Many Tasks</h1>
-        <p class="modal nomore message">
-          Are you sure you can handle all these tasks? Let's focus on what we
-          have already. Or, remove existing tasks to add more.
-        </p>
-        <h1 class="modal invalid title">Invalid Inputs</h1>
-        <p class="modal invalid message">
-          Give TimeDo some real task to track. You left out either the task name
-          or the duration.
-        </p>
-        <button class="close control controller" onclick="closeModal()">
-          <i class="fas fa-times-circle modal close"></i>
-        </button>
+      <div class="modal container">
+        <div class="modal card">
+          <h1 class="modal nomore title">Too Many Tasks</h1>
+          <p class="modal nomore message">
+            Are you sure you can handle all these tasks? Let's focus on what we
+            have already. Or, remove existing tasks to add more.
+          </p>
+          <h1 class="modal invalid title">Invalid Inputs</h1>
+          <p class="modal invalid message">
+            Give TimeDo some real task to track. You left out either the task
+            name or the duration.
+          </p>
+          <button class="close control controller" onclick="closeModal()">
+            <i class="fas fa-times-circle modal close"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div class="top">
@@ -37,7 +39,7 @@
     <div class="main">
       <div class="container">
         <div class="prompt card" onload="setRandomColor(this)">
-          <svg class="prompt" viewBox="0 0 200 200">
+          <svg class="prompt ring" viewBox="0 0 200 200">
             <circle
               class="prompt"
               fill="transparent"
