@@ -137,14 +137,14 @@ button.control {
 .prompt.element {
   box-sizing: border-box;
   height: 50px;
-  margin: 8px;
+  margin: 8px 0px;
   padding: 5px 15px;
   border: 0;
   outline: 0;
   border-bottom: 2px solid;
   border-radius: 25px;
   outline: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
   z-index: 2;
   text-align: center;
 }
@@ -155,21 +155,37 @@ button.control {
   border: 0;
   background: transparent;
 }
-
+.prompt.time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input.time {
+  width: 25px;
+  background-color: transparent;
+  text-align: right;
+}
+span.colon {
+  margin: 0 5px;
+}
 .prompt.form {
   position: absolute;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+input,
 input:focus {
   border: 0;
   outline: 0;
-  border-bottom: 2px solid;
+  font-style: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
 }
 
 .progress.ring {
@@ -198,4 +214,31 @@ input:focus {
 }
 .clock {
   font-size: 2.4rem;
+}
+
+.input-container {
+  position: relative;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.input-container label {
+  position: absolute;
+  top: -0.5em;
+  left: calc(10% + 25px);
+  color: rgb(40, 40, 40);
+  font-size: 0.8em;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
 }

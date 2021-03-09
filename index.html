@@ -52,8 +52,25 @@
           </svg>
           <div class="prompt form">
             <div class="prompt element spacer"></div>
-            <input class="prompt element input label" type="text" />
-            <input class="prompt element input time html-duration-picker" />
+            <div class="input-container">
+              <label>Task</label>
+              <input
+                name="label"
+                class="prompt element label input"
+                type="text"
+              />
+            </div>
+            <div class="input-container">
+              <label>Duration</label>
+
+              <div class="prompt element time input">
+                <input class="time hour" type="text" placeholder="00" />
+                <span class="colon">:</span>
+                <input class="time mins" type="text" placeholder="00" />
+                <span class="colon">:</span>
+                <input class="time secs" type="text" placeholder="00" />
+              </div>
+            </div>
             <button class="prompt element button" onclick="addTimer()">
               Add
             </button>
@@ -63,6 +80,5 @@
     </div>
 
     <script src="js/main.js"></script>
-    <script src="js/html-duration-picker.min.js"></script>
   </body>
 </html>

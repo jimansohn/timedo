@@ -98,20 +98,31 @@ const ringBaseOpacity = 44;
 const ringRadius = ringOuterRadius - ringStrokeWidth / 2;
 const ringCircum = 2 * Math.PI * ringRadius;
 
+function fetchTime() {
+  const timeInput = document.querySelector('.prompt.time');
+  const hour = timeInput.querySelector('.hour').value;
+  const mins = timeInput.querySelector('.mins').value;
+  const secs = timeInput.querySelector('.secs').value;
+  return parseInt(hour) * 3600 + parseInt(mins) * 60 + parseInt(secs);
+}
+
+function resetTime() {
+  const timeInput = document.querySelector('.prompt.time');
+  timeInput.querySelector('.hour').value = '';
+  timeInput.querySelector('.mins').value = '';
+  timeInput.querySelector('.secs').value = '';
+}
+
 function addTimer() {
   const main = document.querySelector('.main');
   if (main.children.length <= 7) {
     const label = document.querySelector('.prompt.label');
-    const time = document.querySelector('.prompt.time');
-    if (label.value != null && time.value != '00:00:00') {
-      const timer = constructTimer(
-        label.value,
-        iso2seconds(time.value),
-        this.color
-      );
+    const time = fetchTime();
+    if (label.value != null && time > 0) {
+      const timer = constructTimer(label.value, time, this.color);
       main.appendChild(timer);
       label.value = '';
-      time.value = '00:00:00';
+      resetTime();
     } else {
       showInvalid();
     }
@@ -391,6 +402,7 @@ class TimerData {
 window.onload = function () {
   updateColor();
   updatePlaceholder();
+  resetTime();
   document.querySelector('.prompt.label').focus();
 };
 
